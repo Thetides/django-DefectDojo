@@ -1,0 +1,77 @@
+Report Generated from sslscan version: {{ version }}
+TSL Grade {{ grade }} for {{ hostname }}
+
+
+Hostname: {{ hostname }}
+Port: {{ port }}
+IP Address: {{ ipaddress }}
+Severity: {{ severity }}
+
+Cert information:
+{# Version 2 of SSL Scan Tool #}
+{% if "cert" in  endpoint_data %}
+    {% for cert in endpoint_data["cert"]  %}
+
+        Certificate Subject: {{ cert["subject"] }}
+        Issuer Subject: {{ cert["issuerSubject"] }}
+        IssuerLabel: {{ cert["issuerLabel"] }}
+        Signature Algorithm: {{ cert["sigAlg"] }}
+        Signed Certificate Timestampe(sct): {{ cert["sct"] }}
+        SHA1 Hash: {{ cert["sha1Hash"] }}
+        Public Key SHA256: {{ cert["pinSha256"] }}
+        {# Loop all collections in cert #}
+        {%  if "commonNames" in cert %}
+        Common Names:
+            {% for commonname in cert["commonNames"] %}
+            - commonname
+            {% endfor %}
+        {% endif %}
+
+        {% if "altNames" in cert %}
+        Alt Names:
+            {% for altname in cert["altNames"] %}
+            - altname
+            {% endfor %}
+        {% endif %}
+
+        {% if "crlURIs" in cert %}
+        crl URIs:
+            {% for crluri in cert["crlURIs"] %}
+            - crluri
+            {% endfor %}
+        {% endif %}
+
+        {% if "ocspURIs" in cert %}
+         ocsp URIs:
+            {% for ocspuri in cert["ocspURIs"] %}
+            - ocspuri
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    Key Information:
+        Size: {{ endpoint_data["Key"] }}
+        Algorithm: {{ endpoint_data["alg"] }}
+
+    Protocols:
+    {% for protocol in endpoint_data["protocols"] %}
+       ID: {{ protocol.id }}
+       Name: {{ protocol.name }}
+       Version: {{ protocol.version }}
+    {% endfor %}
+
+    Suites:
+    {% for suite in endpoint_data["suites"]["list"] %}
+       {% for key, value in suite %}
+       - {{ key }}:{{ value }}
+       {% endfor %}
+    {% endfor %}
+
+    Vulnerability Information:
+    {% for key, value in endpoint_data["vulnInfo"] %}
+    - {{ key }}: {{ value }}
+    {% endfor %}
+
+{% endif %}
+{# Version 3 of SSL Scan Tool #}
+{% if "certs" in  %}
