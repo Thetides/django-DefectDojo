@@ -29,6 +29,7 @@ detail_definitions = {
         4: "FS Enabled"
     },
     "PROTOCOLINTOLERANCE":{
+        0: "Unknown",
         1: "TLS 1.0",
         2: "TLS 1.1",
         4: "TLS 1.2",
@@ -37,6 +38,7 @@ detail_definitions = {
         32: "TLS 2.152"
     },
     "MISCINTOLERANCE":{
+        0: "Unknown",
         1: "Extension intolerance",
         2: "Long handshake intolerance",
         4: "Long handshake intolerance workaround success"
